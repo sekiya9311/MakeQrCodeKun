@@ -3,8 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525" >
+        Title="{Binding Title}"
+        Height="600"
+        Width="300">
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0"
+                 Margin="5"
+                 Text="{Binding PlainValue}"
+                 BorderThickness="1"/>
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="QRコード表示"
+                    Margin="10"
+                    Command="{Binding MakeQrCodeCommand}" />
+            <Button Content="QRコードダウンロード"
+                    Margin="10"
+                    Command="{Binding DownloadQrCodeCommand}" />
+        </StackPanel>
+        <Image Grid.Row="2"
+               Height="250"
+               Width="250"
+               Source="{Binding BarcodeImage}" />
     </Grid>
 </Window>
