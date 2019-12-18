@@ -29,6 +29,6 @@
         <Image Grid.Row="2"
                Height="250"
                Width="250"
-               Source="{Binding BarcodeImage}" />
+               Source="{Binding Barcode}" />
     </Grid>
 </Window>

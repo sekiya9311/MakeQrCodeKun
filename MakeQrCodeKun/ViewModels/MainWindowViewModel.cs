@@ -16,12 +16,7 @@ namespace MakeQrCodeKun.ViewModels
             set { SetProperty(ref _plainValue, value); }
         }
 
-        private BitmapSource? _barcodeImage;
-        public BitmapSource? BarcodeImage
-        {
-            get => _barcodeImage;
-            set { SetProperty(ref _barcodeImage, value); }
-        }
+        public BitmapSource? Barcode => _model.Barcode;
 
         private DelegateCommand? _makeQrCodeCommand;
         public DelegateCommand MakeQrCodeCommand
@@ -31,23 +26,21 @@ namespace MakeQrCodeKun.ViewModels
         public DelegateCommand DownloadQrCodeCommand
             => _downloadQrCodeCommand ??= new DelegateCommand(DownloadQrCode);
 
-        private readonly IBarcodeCreator _barcodeCreator;
-        private readonly IFilePathInquirer _filePathInquirer;
-        private readonly IImageSourceDownloader _imageSourceDownloader;
+        private readonly IBarcodeModel _model;
 
-        public MainWindowViewModel(
-            IBarcodeCreator barcodeCreator,
-            IFilePathInquirer filePathInquirer,
-            IImageSourceDownloader imageSourceDownloader)
+        public MainWindowViewModel(IBarcodeModel model)
         {
-            _barcodeCreator = barcodeCreator;
-            _filePathInquirer = filePathInquirer;
-            _imageSourceDownloader = imageSourceDownloader;
+            _model = model;
+
+            _model.PropertyChanged += (s, e) =>
+            {
+                OnPropertyChanged(e);
+            };
         }
 
         private void MakeQrCode()
         {
-            BarcodeImage = _barcodeCreator.Create(
+            _model.Create(
                 PlainValue,
                 new BarcodeCreatorOption
                 {
@@ -60,9 +53,7 @@ namespace MakeQrCodeKun.ViewModels
 
         private void DownloadQrCode()
         {
-            var saveFilePath = _filePathInquirer.Inquery();
-
-            _imageSourceDownloader.Download(BarcodeImage, saveFilePath);
+            _model.Download();
         }
     }
 }

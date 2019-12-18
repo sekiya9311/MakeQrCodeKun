@@ -18,6 +18,8 @@ namespace MakeQrCodeKun
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IBarcodeModel, BarcodeModel>();
+
             containerRegistry.RegisterSingleton<IBarcodeCreator, BarcodeCreatorByZXing>();
             containerRegistry.RegisterSingleton<IFilePathInquirer, FilePathInquirer>();
             containerRegistry.RegisterSingleton<IImageSourceDownloader, ImageSourceDownloader>();
