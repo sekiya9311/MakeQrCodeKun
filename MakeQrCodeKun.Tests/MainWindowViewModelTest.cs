@@ -1,3 +1,4 @@
+using MakeQrCodeKun.Models.Impls;
 using MakeQrCodeKun.Models.Interfaces;
 using MakeQrCodeKun.ViewModels;
 using Moq;
@@ -9,22 +10,15 @@ namespace MakeQrCodeKun.Tests
 {
     public class MainWindowViewModelTest
     {
-        private readonly Mock<IBarcodeCreator> _barcodeCreator;
-        private readonly Mock<IFilePathInquirer> _filePathInquirer;
-        private readonly Mock<IImageSourceDownloader> _imageSourceDownloader;
+        private readonly Mock<IBarcodeModel> _model;
 
         private readonly MainWindowViewModel _target;
 
         public MainWindowViewModelTest()
         {
-            _barcodeCreator = new Mock<IBarcodeCreator>();
-            _filePathInquirer = new Mock<IFilePathInquirer>();
-            _imageSourceDownloader = new Mock<IImageSourceDownloader>();
+            _model = new Mock<IBarcodeModel>();
 
-            _target = new MainWindowViewModel(
-                _barcodeCreator.Object,
-                _filePathInquirer.Object,
-                _imageSourceDownloader.Object);
+            _target = new MainWindowViewModel(_model.Object);
         }
 
         [Fact]
@@ -32,13 +26,13 @@ namespace MakeQrCodeKun.Tests
         {
             Assert.Equal("QR ƒR[ƒhì‚é‚­‚ñ", _target.Title);
             Assert.Empty(_target.PlainValue);
-            Assert.Null(_target.BarcodeImage);
-            Assert.NotNull(_target.MakeQrCodeCommand);
-            Assert.NotNull(_target.DownloadQrCodeCommand);
+            Assert.Null(_target.Barcode);
+            Assert.NotNull(_target.CreateBarcodeCommand);
+            Assert.NotNull(_target.DownloadBarodeCommand);
         }
 
         [Fact]
-        public void MakeQrCodeTest()
+        public void CreateBarcodeTest()
         {
             var pf = PixelFormats.Pbgra32;
             int rawStride = (200 * pf.BitsPerPixel + 7) / 8;
@@ -48,15 +42,15 @@ namespace MakeQrCodeKun.Tests
                 96, 96,
                 pf, null,
                 rawImage, rawStride);
-            _barcodeCreator
-                .Setup(x => x.Create(It.IsAny<string>(), It.IsAny<BarcodeCreatorOption>()))
+            _model
+                .SetupGet(x => x.Barcode)
                 .Returns(bitmap);
 
             _target.PlainValue = "foo_bar";
-            _target.MakeQrCodeCommand.Execute();
+            _target.CreateBarcodeCommand.Execute();
 
-            Assert.Equal(bitmap, _target.BarcodeImage);
-            _barcodeCreator.Verify(
+            Assert.Equal(bitmap, _target.Barcode);
+            _model.Verify(
                 x => x.Create("foo_bar", new BarcodeCreatorOption
                 {
                     Format = BarcodeFormat.QR_CODE,
@@ -68,16 +62,11 @@ namespace MakeQrCodeKun.Tests
         }
 
         [Fact]
-        public void DownloadQrCodeTest()
+        public void DownloadBarcodeTest()
         {
-            _filePathInquirer
-                .Setup(x => x.Inquery())
-                .Returns("foo_bar");
+            _target.DownloadBarodeCommand.Execute();
 
-            _target.DownloadQrCodeCommand.Execute();
-
-            _imageSourceDownloader.Verify(
-                x => x.Download(null, "foo_bar"), Times.Once);
+            _model.Verify(x => x.Download(), Times.Once);
         }
     }
 }
