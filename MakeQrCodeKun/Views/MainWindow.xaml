@@ -21,10 +21,10 @@
                     HorizontalAlignment="Center">
             <Button Content="QRコード表示"
                     Margin="10"
-                    Command="{Binding MakeQrCodeCommand}" />
+                    Command="{Binding CreateBarcodeCommand}" />
             <Button Content="QRコードダウンロード"
                     Margin="10"
-                    Command="{Binding DownloadQrCodeCommand}" />
+                    Command="{Binding DownloadBarodeCommand}" />
         </StackPanel>
         <Image Grid.Row="2"
                Height="250"

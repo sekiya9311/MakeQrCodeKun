@@ -18,13 +18,13 @@ namespace MakeQrCodeKun.ViewModels
 
         public BitmapSource? Barcode => _model.Barcode;
 
-        private DelegateCommand? _makeQrCodeCommand;
-        public DelegateCommand MakeQrCodeCommand
-            => _makeQrCodeCommand ??= new DelegateCommand(MakeQrCode);
+        private DelegateCommand? _createBarcodeCommand;
+        public DelegateCommand CreateBarcodeCommand
+            => _createBarcodeCommand ??= new DelegateCommand(CreateBarcode);
 
-        private DelegateCommand? _downloadQrCodeCommand;
-        public DelegateCommand DownloadQrCodeCommand
-            => _downloadQrCodeCommand ??= new DelegateCommand(DownloadQrCode);
+        private DelegateCommand? _downloadBarodeCommand;
+        public DelegateCommand DownloadBarodeCommand
+            => _downloadBarodeCommand ??= new DelegateCommand(DownloadBarcode);
 
         private readonly IBarcodeModel _model;
 
@@ -38,7 +38,7 @@ namespace MakeQrCodeKun.ViewModels
             };
         }
 
-        private void MakeQrCode()
+        private void CreateBarcode()
         {
             _model.Create(
                 PlainValue,
@@ -51,7 +51,7 @@ namespace MakeQrCodeKun.ViewModels
                 });
         }
 
-        private void DownloadQrCode()
+        private void DownloadBarcode()
         {
             _model.Download();
         }
