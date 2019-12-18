@@ -10,7 +10,7 @@ namespace MakeQrCodeKun.Tests
     public class MainWindowViewModelTest
     {
         private readonly Mock<IBarcodeCreator> _barcodeCreator;
-        private readonly Mock<IInquirerFilePath> _inquirerFilePath;
+        private readonly Mock<IFilePathInquirer> _filePathInquirer;
         private readonly Mock<IImageSourceDownloader> _imageSourceDownloader;
 
         private readonly MainWindowViewModel _target;
@@ -18,12 +18,12 @@ namespace MakeQrCodeKun.Tests
         public MainWindowViewModelTest()
         {
             _barcodeCreator = new Mock<IBarcodeCreator>();
-            _inquirerFilePath = new Mock<IInquirerFilePath>();
+            _filePathInquirer = new Mock<IFilePathInquirer>();
             _imageSourceDownloader = new Mock<IImageSourceDownloader>();
 
             _target = new MainWindowViewModel(
                 _barcodeCreator.Object,
-                _inquirerFilePath.Object,
+                _filePathInquirer.Object,
                 _imageSourceDownloader.Object);
         }
 
@@ -70,7 +70,7 @@ namespace MakeQrCodeKun.Tests
         [Fact]
         public void DownloadQrCodeTest()
         {
-            _inquirerFilePath
+            _filePathInquirer
                 .Setup(x => x.Inquery())
                 .Returns("foo_bar");
 

@@ -1,6 +1,6 @@
 ﻿namespace MakeQrCodeKun.Models.Interfaces
 {
-    public interface IInquirerFilePath
+    public interface IFilePathInquirer
     {
         string Inquery();
     }

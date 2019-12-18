@@ -3,7 +3,7 @@ using Microsoft.Win32;
 
 namespace MakeQrCodeKun.Models.Impls
 {
-    public class InquirerFilePath : IInquirerFilePath
+    public class FilePathInquirer : IFilePathInquirer
     {
         public string Inquery()
         {

@@ -32,16 +32,16 @@ namespace MakeQrCodeKun.ViewModels
             => _downloadQrCodeCommand ??= new DelegateCommand(DownloadQrCode);
 
         private readonly IBarcodeCreator _barcodeCreator;
-        private readonly IInquirerFilePath _inquirerFilePath;
+        private readonly IFilePathInquirer _filePathInquirer;
         private readonly IImageSourceDownloader _imageSourceDownloader;
 
         public MainWindowViewModel(
             IBarcodeCreator barcodeCreator,
-            IInquirerFilePath inquirerFilePath,
+            IFilePathInquirer filePathInquirer,
             IImageSourceDownloader imageSourceDownloader)
         {
             _barcodeCreator = barcodeCreator;
-            _inquirerFilePath = inquirerFilePath;
+            _filePathInquirer = filePathInquirer;
             _imageSourceDownloader = imageSourceDownloader;
         }
 
@@ -60,7 +60,7 @@ namespace MakeQrCodeKun.ViewModels
 
         private void DownloadQrCode()
         {
-            var saveFilePath = _inquirerFilePath.Inquery();
+            var saveFilePath = _filePathInquirer.Inquery();
 
             _imageSourceDownloader.Download(BarcodeImage, saveFilePath);
         }
