@@ -1,4 +1,3 @@
-using MakeQrCodeKun.Models.Impls;
 using MakeQrCodeKun.Models.Interfaces;
 using MakeQrCodeKun.ViewModels;
 using Moq;
