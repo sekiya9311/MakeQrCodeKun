@@ -23,7 +23,7 @@ namespace MakeQrCodeKun.Tests
         [Fact]
         public void InitializeTest()
         {
-            Assert.Equal("QR ÉRÅ[ÉhçÏÇÈÇ≠ÇÒ", _target.Title);
+            Assert.Equal("QR „Ç≥„Éº„Éâ‰Ωú„Çã„Åè„Çì", _target.Title);
             Assert.Empty(_target.PlainValue);
             Assert.Null(_target.Barcode);
             Assert.NotNull(_target.CreateBarcodeCommand);
